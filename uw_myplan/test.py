@@ -6,7 +6,7 @@ import os
 if __name__ == '__main__':
     path = abspath(os.path.join(dirname(__file__),
                                 "..", "travis-ci", "test.conf"))
-    use_configparser_backend(path, 'Trumba')
+    use_configparser_backend(path, 'MyPlan')
 
     from nose2 import discover
     discover()

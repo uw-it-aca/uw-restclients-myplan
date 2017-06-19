@@ -1,5 +1,6 @@
-from django.test import TestCase
-from restclients.myplan import get_plan
+from unittest import TestCase
+from uw_myplan import get_plan
+
 
 class MyPlanTestData(TestCase):
     def test_javerage(self):
