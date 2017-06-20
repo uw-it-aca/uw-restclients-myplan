@@ -24,7 +24,7 @@ setup(
     install_requires=['UW-RestClients-Core>0.8,<1.0',
                       ],
     license='Apache License, Version 2.0',
-    description=('A library for connecting to the UW NetID API'),
+    description=('A library for connecting to the UW MyPlan API'),
     long_description=README,
     url="https://github.com/uw-it-aca/uw-restclients-iasystem",
     classifiers=[
