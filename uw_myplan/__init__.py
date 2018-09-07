@@ -16,7 +16,7 @@ def get_plan(regid, year, quarter, terms=4):
 
     response = dao.getURL(url, {"Accept": "application/json"})
     if response.status != 200:
-        raise DataFailureException(url, response.status, response.data)
+        raise DataFailureException(url, response.status, str(response.data))
 
     data = json.loads(response.data)
 

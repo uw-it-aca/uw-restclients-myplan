@@ -21,7 +21,7 @@ setup(
     author="UW-IT AXDD",
     author_email="aca-it@uw.edu",
     include_package_data=True,
-    install_requires=['UW-RestClients-Core<1.0',
+    install_requires=['UW-RestClients-Core>1.0,<2.0',
                       ],
     license='Apache License, Version 2.0',
     description=('A library for connecting to the UW MyPlan API'),
@@ -32,7 +32,6 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.6',
     ],
 )
