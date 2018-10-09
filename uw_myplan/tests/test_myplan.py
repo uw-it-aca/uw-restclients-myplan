@@ -1,10 +1,26 @@
 from unittest import TestCase
-from uw_myplan import get_plan
+from uw_myplan import get_plan, get_plan_url
 
 
 class MyPlanTestData(TestCase):
+    def test_plan_url(self):
+        self.assertEquals(
+            get_plan_url(
+                "9136CCB8F66711D5BE060004AC494FFE", 2013, "spring", 2), (
+                "/student/api/plan/v1/2013,spring,2,"
+                "9136CCB8F66711D5BE060004AC494FFE"))
+
+        self.assertEquals(
+            get_plan_url(
+                "9136CCB8F66711D5BE060004AC494FFE", 2012, "summer"), (
+                "/student/api/plan/v1/2012,summer,4,"
+                "9136CCB8F66711D5BE060004AC494FFE"))
+
     def test_javerage(self):
-        plan = get_plan(regid="9136CCB8F66711D5BE060004AC494FFE", year=2013, quarter="spring", terms=4)
+        plan = get_plan(regid="9136CCB8F66711D5BE060004AC494FFE",
+                        year=2013,
+                        quarter="spring",
+                        terms=4)
         self.assertEquals(len(plan.terms), 4)
 
         self.assertEquals(plan.terms[0].year, 2013)
@@ -22,14 +38,22 @@ class MyPlanTestData(TestCase):
         self.assertEquals(len(plan.terms[2].courses), 0)
         self.assertEquals(len(plan.terms[3].courses), 0)
         term_data = plan.terms[0]
-        self.assertEquals(term_data.course_search_href,
-                          "https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/course")
-        self.assertEquals(term_data.degree_audit_href,
-                          "https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit/degree")
-        self.assertEquals(term_data.myplan_href,
-                          "https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/plan/20132")
-        self.assertEquals(term_data.registration_href,
-                          "https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/registration/20132")
+        self.assertEquals(
+            term_data.course_search_href, (
+                "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
+                "netid?rd=/student/myplan/course"))
+        self.assertEquals(
+            term_data.degree_audit_href, (
+                "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
+                "netid?rd=/student/myplan/audit/degree"))
+        self.assertEquals(
+            term_data.myplan_href, (
+                "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
+                "netid?rd=/student/myplan/plan/20132"))
+        self.assertEquals(
+            term_data.registration_href, (
+                "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
+                "netid?rd=/student/myplan/registration/20132"))
         self.assertEquals(term_data.registered_courses_count, 0)
         self.assertEquals(term_data.registered_sections_count, 0)
         self.assertEquals(term_data.courses[0].registrations_available, True)
@@ -46,10 +70,15 @@ class MyPlanTestData(TestCase):
                         terms=4)
         json_data = plan.json_data()
         term_data = json_data["terms"][0]
-        self.assertEquals(term_data["courses"][0]["sections"][1]["section_id"], "AA")
+        self.assertEquals(
+            term_data["courses"][0]["sections"][1]["section_id"], "AA")
         self.assertEquals(term_data["registered_courses_count"], 0)
-        self.assertEquals(term_data["registration_href"],
-                          "https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/registration/20132")
-        self.assertEquals(term_data["course_search_href"],
-                          "https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/course")
+        self.assertEquals(
+            term_data["registration_href"], (
+                "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
+                "netid?rd=/student/myplan/registration/20132"))
+        self.assertEquals(
+            term_data["course_search_href"], (
+                "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
+                "netid?rd=/student/myplan/course"))
         self.assertEquals(term_data["quarter"], "Spring")
