@@ -5,8 +5,8 @@ https://wiki.cac.washington.edu/display/MyPlan/Plan+Resource+v1
 
 from uw_myplan.dao import MyPlan_DAO
 from restclients_core.exceptions import DataFailureException
-from uw_myplan.models import MyPlan, MyPlanTerm, MyPlanCourse, \
-                                    MyPlanCourseSection
+from uw_myplan.models import (
+    MyPlan, MyPlanTerm, MyPlanCourse, MyPlanCourseSection)
 import json
 
 
@@ -53,5 +53,6 @@ def get_plan(regid, year, quarter, terms=4):
     return plan
 
 
-def get_plan_url(regid, year, quarter, terms):
-    return "/student/api/plan/v1/%s,%s,%s,%s" % (year, quarter, terms, regid)
+def get_plan_url(regid, year, quarter, terms=4):
+    return "/student/api/plan/v1/{year},{quarter},{terms},{uwregid}".format(
+        year=year, quarter=quarter, terms=terms, uwregid=regid)
