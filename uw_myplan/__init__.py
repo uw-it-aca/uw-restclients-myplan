@@ -1,3 +1,6 @@
+# Copyright 2021 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 """
 This is the interface for interacting with MyPlan.
 https://wiki.cac.washington.edu/display/MyPlan/Plan+Resource+v1
