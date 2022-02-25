@@ -1,3 +1,6 @@
+# Copyright 2022 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 import os
 from setuptools import setup
 
@@ -20,7 +23,10 @@ setup(
     author="UW-IT AXDD",
     author_email="aca-it@uw.edu",
     include_package_data=True,
-    install_requires=['UW-RestClients-Core'],
+    install_requires=[
+        'UW-RestClients-Core',
+        'mock',
+        ],
     license='Apache License, Version 2.0',
     description=('A library for connecting to the UW MyPlan API'),
     long_description=README,

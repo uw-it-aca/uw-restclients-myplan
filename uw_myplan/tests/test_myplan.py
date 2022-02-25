@@ -1,4 +1,4 @@
-# Copyright 2021 UW-IT, University of Washington
+# Copyright 2022 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 from unittest import TestCase
@@ -10,13 +10,13 @@ class MyPlanTestData(TestCase):
         self.assertEquals(
             get_plan_url(
                 "9136CCB8F66711D5BE060004AC494FFE", 2013, "spring", 2), (
-                "/student/api/plan/v1/2013,spring,2,"
+                "/plan/v1/2013,spring,2,"
                 "9136CCB8F66711D5BE060004AC494FFE"))
 
         self.assertEquals(
             get_plan_url(
                 "9136CCB8F66711D5BE060004AC494FFE", 2012, "summer"), (
-                "/student/api/plan/v1/2012,summer,4,"
+                "/plan/v1/2012,summer,4,"
                 "9136CCB8F66711D5BE060004AC494FFE"))
 
     def test_javerage(self):

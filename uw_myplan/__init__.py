@@ -1,4 +1,4 @@
-# Copyright 2021 UW-IT, University of Washington
+# Copyright 2022 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 """
@@ -6,11 +6,14 @@ This is the interface for interacting with MyPlan.
 https://wiki.cac.washington.edu/display/MyPlan/Plan+Resource+v1
 """
 
-from uw_myplan.dao import MyPlan_DAO
+import json
+import logging
 from restclients_core.exceptions import DataFailureException
+from uw_myplan.dao import MyPlan_DAO
 from uw_myplan.models import (
     MyPlan, MyPlanTerm, MyPlanCourse, MyPlanCourseSection)
-import json
+
+logger = logging.getLogger(__name__)
 
 
 def get_plan(regid, year, quarter, terms=4):
@@ -18,6 +21,8 @@ def get_plan(regid, year, quarter, terms=4):
     url = get_plan_url(regid, year, quarter, terms)
 
     response = dao.getURL(url, {"Accept": "application/json"})
+    logger.debug(
+        {'url': url, 'status': response.status, 'data': response.data})
     if response.status != 200:
         raise DataFailureException(url, response.status, str(response.data))
 
@@ -57,5 +62,5 @@ def get_plan(regid, year, quarter, terms=4):
 
 
 def get_plan_url(regid, year, quarter, terms=4):
-    return "/student/api/plan/v1/{year},{quarter},{terms},{uwregid}".format(
+    return "/plan/v1/{year},{quarter},{terms},{uwregid}".format(
         year=year, quarter=quarter, terms=terms, uwregid=regid)
