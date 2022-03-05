@@ -25,12 +25,12 @@ def _get_plan_url(regid, year, quarter, terms):
 def _get_resource(regid, year, quarter, terms, clear_cached_token=False):
     if clear_cached_token:
         dao.clear_access_token()
-    url = _get_plan_url(regid, year, quarter, terms)
-    return dao.getURL(url, {"Accept": "application/json"})
+    return dao.getURL(
+        _get_plan_url(regid, year, quarter, terms),
+         {"Accept": "application/json"})
 
 
 def get_plan(regid, year, quarter, terms=4):
-    url = _get_plan_url(regid, year, quarter, terms)
     response = _get_resource(regid, year, quarter, terms)
     if response.status != 200:
         if response.status == 401 or response.status == 403:
@@ -39,7 +39,8 @@ def get_plan(regid, year, quarter, terms=4):
                 regid, year, quarter, terms, clear_cached_token=False)
             if response.status != 200:
                 raise DataFailureException(
-                    url, response.status, str(response.data))
+                    _get_plan_url(regid, year, quarter, terms),
+                    response.status, str(response.data))
 
     data = json.loads(response.data)
 
