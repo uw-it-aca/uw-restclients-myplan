@@ -9,6 +9,7 @@ from restclients_core.dao import DAO
 from restclients_core.exceptions import DataFailureException
 
 logger = logging.getLogger(__name__)
+myplan_access_token_url = "/oauth2/token"
 
 
 class MyPlan_Auth_DAO(DAO):
@@ -18,18 +19,23 @@ class MyPlan_Auth_DAO(DAO):
     def _is_cacheable(self, method, url, headers, body=None):
         return True
 
+    def clear_token_from_cache(self):
+        self.clear_cached_response(myplan_access_token_url)
+
     def get_auth_token(self, secret):
-        url = "/oauth2/token"
         headers = {"Authorization": "Basic {}".format(secret),
                    "Content-type": "application/x-www-form-urlencoded"}
 
-        response = self.postURL(url, headers, "grant_type=client_credentials")
-        logger.debug(
-            {'url': url,
-             'status': response.status,
-             'data': response.data})
+        response = self.postURL(
+            myplan_access_token_url, headers, "grant_type=client_credentials")
+
         if response.status != 200:
-            raise DataFailureException(url, response.status, response.data)
+            logger.error(
+                {'url': myplan_access_token_url,
+                 'status': response.status,
+                 'data': response.data})
+            raise DataFailureException(
+                myplan_access_token_url, response.status, response.data)
 
         data = json.loads(response.data)
         return data.get("access_token", "")
@@ -70,3 +76,6 @@ class MyPlan_DAO(DAO):
                 secret[:10], secret[-10:],))
             headers["Authorization"] = self.auth_dao.get_auth_token(secret)
         return headers
+
+    def clear_access_token(self):
+        self.auth_dao.clear_token_from_cache()

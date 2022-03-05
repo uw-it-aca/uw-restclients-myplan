@@ -14,17 +14,32 @@ from uw_myplan.models import (
     MyPlan, MyPlanTerm, MyPlanCourse, MyPlanCourseSection)
 
 logger = logging.getLogger(__name__)
+dao = MyPlan_DAO()
+
+
+def _get_plan_url(regid, year, quarter, terms):
+    return "/plan/v1/{year},{quarter},{terms},{uwregid}".format(
+        year=year, quarter=quarter, terms=terms, uwregid=regid)
+
+
+def _get_resource(regid, year, quarter, terms, clear_cached_token=False):
+    if clear_cached_token:
+        dao.clear_access_token()
+    url = _get_plan_url(regid, year, quarter, terms)
+    return dao.getURL(url, {"Accept": "application/json"})
 
 
 def get_plan(regid, year, quarter, terms=4):
-    dao = MyPlan_DAO()
-    url = get_plan_url(regid, year, quarter, terms)
-
-    response = dao.getURL(url, {"Accept": "application/json"})
-    logger.debug(
-        {'url': url, 'status': response.status, 'data': response.data})
+    url = _get_plan_url(regid, year, quarter, terms)
+    response = _get_resource(regid, year, quarter, terms)
     if response.status != 200:
-        raise DataFailureException(url, response.status, str(response.data))
+        if response.status == 401 or response.status == 403:
+            # clear cached access token, retry once
+            response = _get_resource(
+                regid, year, quarter, terms, clear_cached_token=False)
+            if response.status != 200:
+                raise DataFailureException(
+                    url, response.status, str(response.data))
 
     data = json.loads(response.data)
 
@@ -59,8 +74,3 @@ def get_plan(regid, year, quarter, terms=4):
             term.courses.append(course)
         plan.terms.append(term)
     return plan
-
-
-def get_plan_url(regid, year, quarter, terms=4):
-    return "/plan/v1/{year},{quarter},{terms},{uwregid}".format(
-        year=year, quarter=quarter, terms=terms, uwregid=regid)

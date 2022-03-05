@@ -2,21 +2,15 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from unittest import TestCase
-from uw_myplan import get_plan, get_plan_url
+from uw_myplan import get_plan, _get_plan_url, _get_resource
 
 
 class MyPlanTestData(TestCase):
     def test_plan_url(self):
         self.assertEquals(
-            get_plan_url(
+            _get_plan_url(
                 "9136CCB8F66711D5BE060004AC494FFE", 2013, "spring", 2), (
                 "/plan/v1/2013,spring,2,"
-                "9136CCB8F66711D5BE060004AC494FFE"))
-
-        self.assertEquals(
-            get_plan_url(
-                "9136CCB8F66711D5BE060004AC494FFE", 2012, "summer"), (
-                "/plan/v1/2012,summer,4,"
                 "9136CCB8F66711D5BE060004AC494FFE"))
 
     def test_javerage(self):
@@ -66,6 +60,11 @@ class MyPlanTestData(TestCase):
         self.assertEquals(term_data.courses[0].sections[0].section_id, 'A')
         self.assertEquals(term_data.courses[0].sections[1].section_id, 'AA')
         self.assertEquals(term_data.courses[0].sections[2].section_id, 'AB')
+
+        resp = _get_resource(
+            "9136CCB8F66711D5BE060004AC494FFE", 2013, "spring",
+            4, clear_cached_token=True)
+        self.assertIsNotNone(resp)
 
     def test_json(self):
         plan = get_plan(regid="9136CCB8F66711D5BE060004AC494FFE",
