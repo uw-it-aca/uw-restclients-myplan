@@ -72,8 +72,8 @@ class MyPlan_DAO(DAO):
         headers = {}
         secret = self.get_service_setting("AUTH_SECRET", "")
         if secret:
-            logger.info("AUTH_SECRET: {}...{}".format(
-                secret[:10], secret[-10:],))
+            logger.info(
+                "AUTH_SECRET: {}...{}".format(secret[:10], secret[-10:]))
             headers["Authorization"] = self.auth_dao.get_auth_token(secret)
         return headers
 
