@@ -27,7 +27,7 @@ def _get_resource(regid, year, quarter, terms, clear_cached_token=False):
         dao.clear_access_token()
     return dao.getURL(
         _get_plan_url(regid, year, quarter, terms),
-         {"Accept": "application/json"})
+        {"Accept": "application/json"})
 
 
 def get_plan(regid, year, quarter, terms=4):
