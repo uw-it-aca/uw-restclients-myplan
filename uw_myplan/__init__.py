@@ -32,20 +32,32 @@ def _get_resource(regid, year, quarter, terms, clear_cached_token=False):
 
 def get_plan(regid, year, quarter, terms=4):
     response = _get_resource(regid, year, quarter, terms)
-    if response.status != 200:
-        if response.status == 401 or response.status == 403:
-            # clear cached access token, retry once
-            response = _get_resource(
-                regid, year, quarter, terms, clear_cached_token=False)
-            if response.status != 200:
-                raise DataFailureException(
-                    _get_plan_url(regid, year, quarter, terms),
-                    response.status, str(response.data))
+    logger.info(
+        {'url': _get_plan_url(regid, year, quarter, terms),
+         'status': response.status,
+         'data': response.data})
+    if response.status == 200:
+        return _process_data(json.loads(response.data))
 
-    data = json.loads(response.data)
+    if response.status == 401 or response.status == 403:
+        # clear cached access token, retry once
+        response = _get_resource(
+            regid, year, quarter, terms, clear_cached_token=True)
+        logger.info(
+            {'url': _get_plan_url(regid, year, quarter, terms),
+             'status': response.status,
+             'data': response.data})
+        if response.status == 200:
+            return _process_data(json.loads(response.data))
 
+    raise DataFailureException(
+        _get_plan_url(regid, year, quarter, terms),
+        response.status, str(response.data))
+
+
+def _process_data(jdata):
     plan = MyPlan()
-    for term_data in data:
+    for term_data in jdata:
         term = MyPlanTerm()
         term.year = term_data["Term"]["Year"]
         term.quarter = term_data["Term"]["Quarter"]

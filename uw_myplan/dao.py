@@ -28,7 +28,10 @@ class MyPlan_Auth_DAO(DAO):
 
         response = self.postURL(
             myplan_access_token_url, headers, "grant_type=client_credentials")
-
+        logger.info(
+            {'url': myplan_access_token_url,
+             'status': response.status,
+             'data': response.data})
         if response.status != 200:
             logger.error(
                 {'url': myplan_access_token_url,
@@ -69,11 +72,13 @@ class MyPlan_DAO(DAO):
         return [abspath(os.path.join(dirname(__file__), "resources"))]
 
     def _custom_headers(self, method, url, headers, body):
-        headers = {}
+        if not headers:
+            headers = {}
         secret = self.get_service_setting("AUTH_SECRET", "")
+        logger.info(
+            "AUTH_SECRET: {}...{}".format(secret[:10], secret[-10:]))
+
         if secret:
-            logger.info(
-                "AUTH_SECRET: {}...{}".format(secret[:10], secret[-10:]))
             headers["Authorization"] = self.auth_dao.get_auth_token(secret)
         return headers
 
