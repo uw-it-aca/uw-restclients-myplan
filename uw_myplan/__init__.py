@@ -16,51 +16,68 @@ from uw_myplan.models import (
 logger = logging.getLogger(__name__)
 
 
-def get_plan(regid, year, quarter, terms=4):
-    dao = MyPlan_DAO()
-    url = get_plan_url(regid, year, quarter, terms)
+class Plan(object):
 
-    response = dao.getURL(url, {"Accept": "application/json"})
-    logger.debug(
-        {'url': url, 'status': response.status, 'data': response.data})
-    if response.status != 200:
-        raise DataFailureException(url, response.status, str(response.data))
+    def __init__(self, actas=None):
+        self.dao = MyPlan_DAO()
 
-    data = json.loads(response.data)
+    def _get_plan_url(self, regid, year, quarter, terms):
+        return "/plan/v1/{year},{quarter},{terms},{uwregid}".format(
+            year=year, quarter=quarter, terms=terms, uwregid=regid)
 
-    plan = MyPlan()
-    for term_data in data:
-        term = MyPlanTerm()
-        term.year = term_data["Term"]["Year"]
-        term.quarter = term_data["Term"]["Quarter"]
+    def _get_resource(self, regid, year, quarter, terms,
+                      clear_cached_token=False):
+        if clear_cached_token:
+            self.dao.clear_access_token()
+        return self.dao.getURL(
+            self._get_plan_url(regid, year, quarter, terms),
+            {"Accept": "application/json"})
 
-        term.course_search_href = term_data["CourseSearchHref"]
-        term.degree_audit_href = term_data["DegreeAuditHref"]
-        term.myplan_href = term_data["MyPlanHref"]
-        term.registration_href = term_data["RegistrationHref"]
-        term.registered_courses_count = int(
-            term_data["RegisteredCoursesCount"])
-        term.registered_sections_count = int(
-            term_data["RegisteredSectionsCount"])
+    def get_plan(self, regid, year, quarter, terms=4):
+        response = self._get_resource(regid, year, quarter, terms)
+        if response.status == 200:
+            return self._process_data(json.loads(response.data))
 
-        for course_data in term_data["Courses"]:
-            course = MyPlanCourse()
-            course.curriculum_abbr = course_data["CurriculumAbbreviation"]
-            course.course_number = course_data["CourseNumber"]
+        if response.status == 401 or response.status == 403:
+            # clear cached access token, retry once
+            response = self._get_resource(
+                regid, year, quarter, terms, clear_cached_token=True)
+            if response.status == 200:
+                return self._process_data(json.loads(response.data))
 
-            is_available = course_data["RegistrationAvailable"]
-            course.registrations_available = is_available
+        raise DataFailureException(
+            self._get_plan_url(regid, year, quarter, terms),
+            response.status, str(response.data))
 
-            for section_data in course_data["Sections"]:
-                section = MyPlanCourseSection()
-                section.section_id = section_data["SectionId"]
-                course.sections.append(section)
+    def _process_data(self, jdata):
+        plan = MyPlan()
+        for term_data in jdata:
+            term = MyPlanTerm()
+            term.year = term_data["Term"]["Year"]
+            term.quarter = term_data["Term"]["Quarter"]
 
-            term.courses.append(course)
-        plan.terms.append(term)
-    return plan
+            term.course_search_href = term_data["CourseSearchHref"]
+            term.degree_audit_href = term_data["DegreeAuditHref"]
+            term.myplan_href = term_data["MyPlanHref"]
+            term.registration_href = term_data["RegistrationHref"]
+            term.registered_courses_count = int(
+                term_data["RegisteredCoursesCount"])
+            term.registered_sections_count = int(
+                term_data["RegisteredSectionsCount"])
 
+            for course_data in term_data["Courses"]:
+                course = MyPlanCourse()
+                course.curriculum_abbr = course_data["CurriculumAbbreviation"]
+                course.course_number = course_data["CourseNumber"]
 
-def get_plan_url(regid, year, quarter, terms=4):
-    return "/plan/v1/{year},{quarter},{terms},{uwregid}".format(
-        year=year, quarter=quarter, terms=terms, uwregid=regid)
+                is_available = course_data["RegistrationAvailable"]
+                course.registrations_available = is_available
+
+                for section_data in course_data["Sections"]:
+                    section = MyPlanCourseSection()
+                    section.section_id = section_data["SectionId"]
+                    course.sections.append(section)
+
+                term.courses.append(course)
+            plan.terms.append(term)
+        return plan
