@@ -24,7 +24,7 @@ class TestMyPlanAuth(TestCase):
             MyPlan_Auth_DAO().get_auth_token("test1"))
 
     @mock.patch.object(MyPlan_Auth_DAO, "postURL")
-    def test_get_auth_token(self, mock):
+    def test_get_auth_token_error(self, mock):
         response = MockHTTP()
         response.status = 404
         response.data = "Not Found"
