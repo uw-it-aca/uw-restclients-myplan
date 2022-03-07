@@ -2,22 +2,40 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from unittest import TestCase
-from uw_myplan import get_plan, _get_plan_url, _get_resource
+import mock
+from restclients_core.models import MockHTTP
+from restclients_core.exceptions import DataFailureException
+from uw_myplan import Plan
 
 
-class MyPlanTestData(TestCase):
+class PlanTest(TestCase):
     def test_plan_url(self):
         self.assertEquals(
-            _get_plan_url(
+            Plan()._get_plan_url(
                 "9136CCB8F66711D5BE060004AC494FFE", 2013, "spring", 2), (
                 "/plan/v1/2013,spring,2,"
                 "9136CCB8F66711D5BE060004AC494FFE"))
 
+    @mock.patch.object(Plan, "_get_resource")
+    def test_error_401(self, mock):
+        response = MockHTTP()
+        response.status = 403
+        response.data = "Not Authorized"
+        mock.return_value = response
+        self.assertRaises(
+            DataFailureException,
+            Plan().get_plan,
+            "9136CCB8F66711D5BE060004AC494FFE",
+            2013,
+            "spring",
+            terms=4)
+
     def test_javerage(self):
-        plan = get_plan(regid="9136CCB8F66711D5BE060004AC494FFE",
-                        year=2013,
-                        quarter="spring",
-                        terms=4)
+        plan = Plan().get_plan(
+            regid="9136CCB8F66711D5BE060004AC494FFE",
+            year=2013,
+            quarter="spring",
+            terms=4)
         self.assertEquals(len(plan.terms), 4)
 
         self.assertEquals(plan.terms[0].year, 2013)
@@ -61,15 +79,17 @@ class MyPlanTestData(TestCase):
         self.assertEquals(term_data.courses[0].sections[1].section_id, 'AA')
         self.assertEquals(term_data.courses[0].sections[2].section_id, 'AB')
 
-        resp = _get_resource(
+        resp = Plan()._get_resource(
             "9136CCB8F66711D5BE060004AC494FFE", 2013, "spring",
             4, clear_cached_token=True)
         self.assertIsNotNone(resp)
 
     def test_json(self):
-        plan = get_plan(regid="9136CCB8F66711D5BE060004AC494FFE",
-                        year=2013, quarter="spring",
-                        terms=4)
+        plan = Plan().get_plan(
+            regid="9136CCB8F66711D5BE060004AC494FFE",
+            year=2013,
+            quarter="spring",
+            terms=4)
         json_data = plan.json_data()
         term_data = json_data["terms"][0]
         self.assertEquals(

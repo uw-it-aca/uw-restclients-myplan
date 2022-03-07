@@ -5,6 +5,7 @@ from unittest import TestCase
 import mock
 from commonconf import override_settings
 from restclients_core.exceptions import DataFailureException
+from restclients_core.models import MockHTTP
 from uw_myplan.dao import MyPlan_Auth_DAO, MyPlan_DAO
 from uw_myplan.utils import (
     fdao_myplan_override, fdao_myplan_auth_override)
@@ -21,6 +22,16 @@ class TestMyPlanAuth(TestCase):
     def test_get_auth_token(self):
         self.assertIsNotNone(
             MyPlan_Auth_DAO().get_auth_token("test1"))
+
+    @mock.patch.object(MyPlan_Auth_DAO, "postURL")
+    def test_get_auth_token(self, mock):
+        response = MockHTTP()
+        response.status = 404
+        response.data = "Not Found"
+        mock.return_value = response
+        self.assertRaises(
+            DataFailureException,
+            MyPlan_Auth_DAO().get_auth_token, "test1")
 
     def test_no_auth_header(self):
         headers = MyPlan_DAO()._custom_headers("GET", "/", {}, "")
