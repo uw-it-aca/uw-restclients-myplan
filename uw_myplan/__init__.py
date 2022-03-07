@@ -32,10 +32,6 @@ def _get_resource(regid, year, quarter, terms, clear_cached_token=False):
 
 def get_plan(regid, year, quarter, terms=4):
     response = _get_resource(regid, year, quarter, terms)
-    logger.info(
-        {'url': _get_plan_url(regid, year, quarter, terms),
-         'status': response.status,
-         'data': response.data})
     if response.status == 200:
         return _process_data(json.loads(response.data))
 
@@ -43,10 +39,6 @@ def get_plan(regid, year, quarter, terms=4):
         # clear cached access token, retry once
         response = _get_resource(
             regid, year, quarter, terms, clear_cached_token=True)
-        logger.info(
-            {'url': _get_plan_url(regid, year, quarter, terms),
-             'status': response.status,
-             'data': response.data})
         if response.status == 200:
             return _process_data(json.loads(response.data))
 
