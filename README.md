@@ -9,3 +9,12 @@
 Installation:
 
     pip install UW-RestClients-MyPlan
+
+To use this client, you'll need these settings in your application or script:
+
+    # Specifies whether requests should use live or mocked resources,
+    # acceptable values are 'Live' or 'Mock' (default)
+    RESTCLIENTS_MYPLAN_DAO_CLASS='Live'
+    RESTCLIENTS_MYPLAN_AUTH_DAO_CLASS='Live'
+    RESTCLIENTS_MYPLAN_AUTH_SECRET=''
+    RESTCLIENTS_MYPLAN_AUTH_HOST=''
