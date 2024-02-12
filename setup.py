@@ -20,7 +20,7 @@ setup(
     name='UW-RestClients-MyPlan',
     version=VERSION,
     packages=['uw_myplan'],
-    author="UW-IT AXDD",
+    author="UW-IT T&LS",
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[
@@ -36,6 +36,5 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.8',
     ],
 )
