@@ -61,9 +61,9 @@ class Plan(object):
             term.myplan_href = term_data.get("MyPlanHref")
             term.registration_href = term_data.get("RegistrationHref")
             term.registered_courses_count = int(
-                term_data.get("RegisteredCoursesCount"))
+                term_data.get("RegisteredCoursesCount", 0))
             term.registered_sections_count = int(
-                term_data.get("RegisteredSectionsCount"))
+                term_data.get("RegisteredSectionsCount", 0))
 
             for course_data in term_data["Courses"]:
                 course = MyPlanCourse()
