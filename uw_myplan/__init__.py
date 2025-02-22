@@ -22,8 +22,7 @@ class Plan(object):
         self.dao = MyPlan_DAO()
 
     def _get_plan_url(self, regid, year, quarter, terms):
-        return "/plan/v1/{year},{quarter},{terms},{uwregid}".format(
-            year=year, quarter=quarter, terms=terms, uwregid=regid)
+        return f"/plan/v1/{year},{quarter},{terms},{regid}"
 
     def _get_resource(self, regid, year, quarter, terms,
                       clear_cached_token=False):
