@@ -1,4 +1,4 @@
-# Copyright 2024 UW-IT, University of Washington
+# Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 from restclients_core import models
@@ -31,6 +31,7 @@ class MyPlanTerm(models.Model):
         (WINTER, 'Winter'),
     )
 
+    complete_pre_reg = models.BooleanField(default=False)
     course_search_href = models.CharField(max_length=512)
     degree_audit_href = models.CharField(max_length=512)
     myplan_href = models.CharField(max_length=512)
@@ -51,6 +52,7 @@ class MyPlanTerm(models.Model):
         data = {
             "year": self.year,
             "quarter": self.quarter,
+            "complete_pre_reg": self.complete_pre_reg,
             "course_search_href": self.course_search_href,
             "degree_audit_href": self.degree_audit_href,
             "myplan_href": self.myplan_href,
