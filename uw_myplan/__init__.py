@@ -22,8 +22,7 @@ class Plan(object):
         self.dao = MyPlan_DAO()
 
     def _get_plan_url(self, regid, year, quarter, terms):
-        return "/plan/v1/{year},{quarter},{terms},{uwregid}".format(
-            year=year, quarter=quarter, terms=terms, uwregid=regid)
+        return f"/plan/v1/{year},{quarter},{terms},{regid}"
 
     def _get_resource(self, regid, year, quarter, terms,
                       clear_cached_token=False):
@@ -56,14 +55,15 @@ class Plan(object):
             term.year = term_data["Term"]["Year"]
             term.quarter = term_data["Term"]["Quarter"]
 
-            term.course_search_href = term_data["CourseSearchHref"]
-            term.degree_audit_href = term_data["DegreeAuditHref"]
-            term.myplan_href = term_data["MyPlanHref"]
-            term.registration_href = term_data["RegistrationHref"]
+            term.complete_pre_reg = term_data.get("PreRegistrationComplete")
+            term.course_search_href = term_data.get("CourseSearchHref")
+            term.degree_audit_href = term_data.get("DegreeAuditHref")
+            term.myplan_href = term_data.get("MyPlanHref")
+            term.registration_href = term_data.get("RegistrationHref")
             term.registered_courses_count = int(
-                term_data["RegisteredCoursesCount"])
+                term_data.get("RegisteredCoursesCount", 0))
             term.registered_sections_count = int(
-                term_data["RegisteredSectionsCount"])
+                term_data.get("RegisteredSectionsCount", 0))
 
             for course_data in term_data["Courses"]:
                 course = MyPlanCourse()

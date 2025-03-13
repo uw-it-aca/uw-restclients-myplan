@@ -66,9 +66,8 @@ class PlanTest(TestCase):
                 "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
                 "netid?rd=/student/myplan/plan/20132"))
         self.assertEquals(
-            term_data.registration_href, (
-                "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
-                "netid?rd=/student/myplan/registration/20132"))
+            term_data.registration_href,
+            "https://register-dev.sis.uw.edu/#/sp13")
         self.assertEquals(term_data.registered_courses_count, 0)
         self.assertEquals(term_data.registered_sections_count, 0)
         self.assertEquals(term_data.courses[0].registrations_available, True)
@@ -96,9 +95,8 @@ class PlanTest(TestCase):
             term_data["courses"][0]["sections"][1]["section_id"], "AA")
         self.assertEquals(term_data["registered_courses_count"], 0)
         self.assertEquals(
-            term_data["registration_href"], (
-                "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
-                "netid?rd=/student/myplan/registration/20132"))
+            term_data["registration_href"],
+            "https://register-dev.sis.uw.edu/#/sp13")
         self.assertEquals(
             term_data["course_search_href"], (
                 "https://uwkseval.cac.washington.edu/student/myplan/mplogin/"
