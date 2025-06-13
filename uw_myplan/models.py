@@ -35,6 +35,8 @@ class MyPlanTerm(models.Model):
     course_search_href = models.CharField(max_length=512)
     degree_audit_href = models.CharField(max_length=512)
     myplan_href = models.CharField(max_length=512)
+    myplan_audit_href = models.CharField(max_length=512)
+    reg_open = models.BooleanField(default=False)
     registration_href = models.CharField(max_length=512)
     registered_courses_count = models.SmallIntegerField(
         max_length=3, default=0)
@@ -56,7 +58,9 @@ class MyPlanTerm(models.Model):
             "course_search_href": self.course_search_href,
             "degree_audit_href": self.degree_audit_href,
             "myplan_href": self.myplan_href,
+            "myplan_audit_href": self.myplan_audit_href,
             "registration_href": self.registration_href,
+            "reg_open": self.reg_open,
             "registered_courses_count": self.registered_courses_count,
             "registered_sections_count": self.registered_sections_count,
             "courses": [],

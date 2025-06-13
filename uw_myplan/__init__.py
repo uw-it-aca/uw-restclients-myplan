@@ -54,11 +54,14 @@ class Plan(object):
             term = MyPlanTerm()
             term.year = term_data["Term"]["Year"]
             term.quarter = term_data["Term"]["Quarter"]
+            term.reg_open = term_data["Term"].get("OpenForRegistration")
 
             term.complete_pre_reg = term_data.get("PreRegistrationComplete")
             term.course_search_href = term_data.get("CourseSearchHref")
             term.degree_audit_href = term_data.get("DegreeAuditHref")
             term.myplan_href = term_data.get("MyPlanHref")
+
+            term.myplan_audit_href = term_data.get("PlanAuditHref")
             term.registration_href = term_data.get("RegistrationHref")
             term.registered_courses_count = int(
                 term_data.get("RegisteredCoursesCount", 0))

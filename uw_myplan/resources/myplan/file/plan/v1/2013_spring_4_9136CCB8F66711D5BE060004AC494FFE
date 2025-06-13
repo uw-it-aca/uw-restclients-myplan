@@ -1,15 +1,20 @@
 [
     {
-        "Term":{"Quarter":"Spring","Year":2013},
-        "RegistrationHref":"https://register-dev.sis.uw.edu/#/sp13",
-        "MyPlanHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/plan/20132",
-        "AuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit",
-        "PlanAuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit/plan",
-        "DegreeAuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit/degree",
-        "PlanValidationHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/planValidation/20132",
-        "CourseSearchHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/course",
-        "RegisteredCoursesCount":0,
-        "RegisteredSectionsCount":0,
+        "Term":{
+            "Quarter":"Spring",
+            "Year":2013,
+            "Label": "Spring 2013",
+            "OpenForRegistration": false
+        },
+        "RegistrationHref":"https://register.uw.edu/#/sp13",
+        "MyPlanHref":"https://myplan.uw.edu/plan/#/sp13",
+        "AuditHref":"https://myplan.uw.edu/audit/#/plan",
+        "PlanAuditHref":"https://myplan.uw.edu/audit/#/plan",
+        "DegreeAuditHref":"https://myplan.uw.edu/audit/#/degree",
+        "CourseSearchHref": "https://myplan.uw.edu/course/#/courses",
+
+        "RegisteredCoursesCount":2,
+        "RegisteredSectionsCount":2,
         "PreRegistrationComplete": true,
         "Courses":[
             {
@@ -30,16 +35,20 @@
                     {"SectionId":"B"},
                     {"SectionId":"C"}]}]},
     {
-        "Term":{"Quarter":"Summer","Year":2013},
-        "RegistrationHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/registration/20133",
-        "MyPlanHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/plan/20133",
-        "AuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit",
-        "PlanAuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit/plan",
-        "DegreeAuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit/degree",
-        "PlanValidationHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/planValidation/20133",
-        "CourseSearchHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/course",
+        "Term":{
+            "Quarter":"Summer",
+            "Year":2013,
+            "Label": "Summer 2013",
+            "OpenForRegistration": false
+        },
+        "RegistrationHref": "https://register.uw.edu/#/su13",
+        "MyPlanHref": "https://myplan.uw.edu/plan/#/su13",
+        "AuditHref": "https://myplan.uw.edu/audit/#/plan",
+        "PlanAuditHref": "https://myplan.uw.edu/audit/#/plan",
+        "DegreeAuditHref": "https://myplan.uw.edu/audit/#/degree",
+        "CourseSearchHref": "https://myplan.uw.edu/course/#/courses",
         "RegisteredCoursesCount":0,
-        "RegisteredSectionsCount":0,
+        "RegisteredSectionsCount":1,
         "Courses":[
             {
                 "CurriculumAbbreviation":"CSE",
@@ -51,28 +60,36 @@
         ]
     },
     {
-        "Term":{"Quarter":"Autumn","Year":2013},
-        "RegistrationHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/registration/20134",
-        "MyPlanHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/plan/20134",
-        "AuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit",
-        "PlanAuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit/plan",
-        "DegreeAuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit/degree",
-        "PlanValidationHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/planValidation/20134",
-        "CourseSearchHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/course",
+        "Term":{
+            "Quarter":"Autumn",
+            "Year":2013,
+            "Label": "Autumn 2013",
+            "OpenForRegistration": false
+        },
+        "RegistrationHref": "https://register.uw.edu/#/au13",
+        "MyPlanHref": "https://myplan.uw.edu/plan/#/au13",
+        "AuditHref": "https://myplan.uw.edu/audit/#/plan",
+        "PlanAuditHref": "https://myplan.uw.edu/audit/#/plan",
+        "DegreeAuditHref": "https://myplan.uw.edu/audit/#/degree",
+        "CourseSearchHref": "https://myplan.uw.edu/course/#/courses",
         "RegisteredCoursesCount":0,
         "RegisteredSectionsCount":0,
         "Courses":[
         ]
     },
     {
-        "Term":{"Quarter":"Winter","Year":2014},
-        "RegistrationHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/registration/20141",
-        "MyPlanHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/plan/20141",
-        "AuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit",
-        "PlanAuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit/plan",
-        "DegreeAuditHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/audit/degree",
-        "PlanValidationHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/planValidation/20141",
-        "CourseSearchHref":"https://uwkseval.cac.washington.edu/student/myplan/mplogin/netid?rd=/student/myplan/course",
+        "Term":{
+            "Quarter":"Winter",
+            "Year":2014,
+            "Label": "Winter 2014",
+            "OpenForRegistration": false
+        },
+        "RegistrationHref": "https://register.uw.edu/#/wi14",
+        "MyPlanHref": "https://myplan.uw.edu/plan/#/wi14",
+        "AuditHref": "https://myplan.uw.edu/audit/#/plan",
+        "PlanAuditHref": "https://myplan.uw.edu/audit/#/plan",
+        "DegreeAuditHref": "https://myplan.uw.edu/audit/#/degree",
+        "CourseSearchHref": "https://myplan.uw.edu/course/#/courses",
         "RegisteredCoursesCount":0,
         "RegisteredSectionsCount":0,
         "Courses":[
