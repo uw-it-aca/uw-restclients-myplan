@@ -72,7 +72,8 @@ class MyPlan_DAO(DAO):
             headers = {}
         secret = self.get_service_setting("AUTH_SECRET", "")
         if secret:
-            headers["Authorization"] = self.auth_dao.get_auth_token(secret)
+            token = self.auth_dao.get_auth_token(secret)
+            headers["Authorization"] = f"Bearer {token}"
         return headers
 
     def clear_access_token(self):
