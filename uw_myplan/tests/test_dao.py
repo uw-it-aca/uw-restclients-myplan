@@ -43,4 +43,4 @@ class TestMyPlanAuth(TestCase):
         mock_get_auth_token.return_value = "abcdef"
         headers = MyPlan_DAO()._custom_headers("GET", "/", {}, "")
         self.assertTrue("Authorization" in headers)
-        self.assertEqual(headers["Authorization"], "abcdef")
+        self.assertEqual(headers["Authorization"], "Bearer abcdef")
