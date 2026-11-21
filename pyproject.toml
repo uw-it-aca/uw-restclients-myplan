@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "UW-RestClients-MyPlan"
+dynamic = ["version"]
+description = "A client for connecting to the UW MyPlan API"
+readme = "README.md"
+license = {text = "Apache License, Version 2.0"}
+authors = [
+    {name = "UWIT Student & Educational Technology Services", email = "aca-it@uw.edu"}
+]
+requires-python = ">=3.10"
+dependencies = [
+    "uw-restclients-core",
+    "mock",
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+]
+
+[project.urls]
+Homepage = "https://github.com/uw-it-aca/uw-restclients-myplan"
+
+[tool.setuptools]
+packages = ["uw_myplan"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {file = "uw_myplan/VERSION"}
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+indent-style = "space"
+
+[tool.ruff.lint]
+ignore = [
+    "BLE001",
+    "RUF012",
+    "S110",
+    "TRY002",
+    "TRY004",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["uw_myplan"]
+include = ["uw_myplan/*"]
