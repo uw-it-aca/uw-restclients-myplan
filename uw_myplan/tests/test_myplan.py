@@ -1,10 +1,11 @@
-# Copyright 2025 UW-IT, University of Washington
+# Copyright 2026 UWIT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from unittest import TestCase
-import mock
-from restclients_core.models import MockHTTP
+from unittest import TestCase, mock
+
 from restclients_core.exceptions import DataFailureException
+from restclients_core.models import MockHTTP
+
 from uw_myplan import Plan
 
 
@@ -30,7 +31,7 @@ class PlanTest(TestCase):
             "spring",
             terms=4)
 
-    def test_javerage(self):
+    def test_plan_for_javerage(self):
         plan = Plan().get_plan(
             regid="9136CCB8F66711D5BE060004AC494FFE",
             year=2013,
@@ -80,9 +81,10 @@ class PlanTest(TestCase):
         self.assertEqual(term_data.courses[0].sections[1].section_id, 'AA')
         self.assertEqual(term_data.courses[0].sections[2].section_id, 'AB')
 
-        resp = Plan()._get_resource(
-            "9136CCB8F66711D5BE060004AC494FFE", 2013, "spring",
-            4, clear_cached_token=True)
+        plan = Plan()
+        url = plan._get_plan_url(
+            "9136CCB8F66711D5BE060004AC494FFE", 2013, "spring", 4)
+        resp = plan._get_resource(url, clear_cached_token=True)
         self.assertIsNotNone(resp)
 
     def test_json(self):
