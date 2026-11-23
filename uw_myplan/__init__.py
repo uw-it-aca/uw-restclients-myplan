@@ -1,4 +1,4 @@
-# Copyright 2025 UW-IT, University of Washington
+# Copyright 2026 UWIT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
 """
@@ -8,15 +8,18 @@ https://wiki.cac.washington.edu/display/MyPlan/Plan+Resource+v1
 
 import json
 import logging
+
 from restclients_core.exceptions import DataFailureException
+
 from uw_myplan.dao import MyPlan_DAO
-from uw_myplan.models import (
-    MyPlan, MyPlanTerm, MyPlanCourse, MyPlanCourseSection)
+from uw_myplan.models import MyPlan, MyPlanCourse, MyPlanCourseSection, MyPlanTerm
 
 logger = logging.getLogger(__name__)
 
 
-class Plan(object):
+class Plan:
+    """Interface for interacting with the MyPlan Web Service.
+    """
 
     def __init__(self, actas=None):
         self.dao = MyPlan_DAO()
@@ -24,29 +27,27 @@ class Plan(object):
     def _get_plan_url(self, regid, year, quarter, terms):
         return f"/plan/v1/{year},{quarter},{terms},{regid}"
 
-    def _get_resource(self, regid, year, quarter, terms,
-                      clear_cached_token=False):
+    def _get_resource(self, url, clear_cached_token=False):
         if clear_cached_token:
             self.dao.clear_access_token()
-        return self.dao.getURL(
-            self._get_plan_url(regid, year, quarter, terms),
-            {"Accept": "application/json"})
+
+        return self.dao.getURL(url)
 
     def get_plan(self, regid, year, quarter, terms=4):
-        response = self._get_resource(regid, year, quarter, terms)
+        url = self._get_plan_url(regid, year, quarter, terms)
+
+        response = self._get_resource(url)
+
         if response.status == 200:
             return self._process_data(json.loads(response.data))
 
         if response.status == 401 or response.status == 403:
             # clear cached access token, retry once
-            response = self._get_resource(
-                regid, year, quarter, terms, clear_cached_token=True)
+            response = self._get_resource(url, clear_cached_token=True)
             if response.status == 200:
                 return self._process_data(json.loads(response.data))
 
-        raise DataFailureException(
-            self._get_plan_url(regid, year, quarter, terms),
-            response.status, str(response.data))
+        raise DataFailureException(url, response.status, str(response.data))
 
     def _process_data(self, jdata):
         plan = MyPlan()
